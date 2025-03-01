@@ -15,7 +15,7 @@ async function fetchUserPoints() {
 
     try {
         console.log('Fetching points for user:', user.id); // Debug log
-        const response = await fetch(`http://localhost:3000/api/user-data/${user.id}`);
+        const response = await fetch(`https://recyclebin1.onrender.com/api/user-data/${user.id}`);
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -132,7 +132,7 @@ async function redeemReward(points, rewardType) {
     }
 
     try {
-        const response = await fetch('http://localhost:3000/api/redeem', {
+        const response = await fetch('https://recyclebin1.onrender.com/api/redeem', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
