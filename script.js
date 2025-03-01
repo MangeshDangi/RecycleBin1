@@ -1,7 +1,7 @@
 const getApiUrl = (endpoint) => {
     if (typeof API_CONFIG === 'undefined') {
         console.warn('API_CONFIG not found, using default URL');
-        return `http://localhost:3000${endpoint}`;
+        return `https://recyclebin1.onrender.com${endpoint}`;
     }
     return `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS[endpoint]}`;
 };
@@ -116,7 +116,7 @@ async function submitCode() {
         
         showNotification('Processing code...', 'info');
 
-        const response = await fetch('http://localhost:3000/api/submit-code', {
+        const response = await fetch('https://recyclebin1.onrender.com/api/submit-code', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -849,7 +849,7 @@ function calculateTreesSaved(points) {
 // Add this function to update eco stats
 async function updateEcoStats() {
     try {
-        const response = await fetch('http://localhost:3000/api/eco-stats');
+        const response = await fetch('https://recyclebin1.onrender.com/api/eco-stats');
         const data = await response.json();
         
         if (data.success) {
@@ -900,7 +900,7 @@ function calculateTreesSaved(points) {
 // Update the updateEcoStats function
 async function updateEcoStats() {
     try {
-        const response = await fetch('http://localhost:3000/api/eco-stats');
+        const response = await fetch('https://recyclebin1.onrender.com/api/eco-stats');
         const data = await response.json();
         
         if (data.success) {
@@ -965,7 +965,7 @@ async function submitCode() {
         
         showNotification('Processing code...', 'info');
 
-        const response = await fetch('http://localhost:3000/api/submit-code', {
+        const response = await fetch('https://recyclebin1.onrender.com/api/submit-code', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1106,7 +1106,7 @@ async function loadTransactionHistory(filter = 'all') {
     transactionList.innerHTML = '<div class="loading-spinner"></div>';
 
     try {
-        const response = await fetch(`http://localhost:3000/api/transactions/${user.id}?filter=${filter}`, {
+        const response = await fetch(`https://recyclebin1.onrender.com/api/transactions/${user.id}?filter=${filter}`, {
             headers: { 'Accept': 'application/json' }
         });
 
@@ -1186,7 +1186,7 @@ function animateCounter(element, start, end, duration = 2000) {
 // Add function to load and update platform stats
 async function updatePlatformStats() {
     try {
-        const response = await fetch('http://localhost:3000/api/platform-stats');
+        const response = await fetch('https://recyclebin1.onrender.com/api/platform-stats');
         const data = await response.json();
         
         if (data.success) {
