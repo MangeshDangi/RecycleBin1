@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redeem Points</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="redeem.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-recycle"></i>
+                <h2>EcoRewards</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#how-it-works">How It Works</a></li>
+                <li><a href="index.html#about">About Us</a></li>
+                <li><button id="loginBtn" class="nav-button">Login</button></li>
+            </ul>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+    <div class="background-image"></div>
+    <div class="container">
+        <!-- <h1>Redeem Your Points</h1> -->
+        <div class="points-balance animate__animated">
+            Your Points Balance: <span id="userPoints" class="stat-number">0</span>
+        </div>
+
+        <div class="rewards-grid">
+            <div class="reward-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/179/179225.png" alt="Gift Card">
+                <h3>₹100 Gift Card</h3>
+                <p class="points">500 points</p>
+                <button data-points="500" onclick="redeemReward(500, 'Gift Card - ₹100')">Redeem</button>
+            </div>
+            <div class="reward-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/4474/4474463.png" alt="Eco Product">
+                <h3>Eco-friendly Product</h3>
+                <p class="points">750 points</p>
+                <button data-points="750" onclick="redeemReward(750, 'Eco-friendly Product')">Redeem</button>
+            </div>
+            <div class="reward-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/628/628283.png" alt="Plant a Tree">
+                <h3>Plant a Tree</h3>
+                <p>300 points</p>
+                <button data-points="300" onclick="redeemReward(300, 'Plant a Tree')">Redeem</button>
+            </div>
+            <div class="reward-item">
+                <img src="https://i0.wp.com/www.dafontfree.co/wp-content/uploads/2021/11/Amazon-Logo-Font-1-scaled.jpg?resize=2560%2C1578"
+                    alt="Amazon Gift Card">
+                <h3>Amazon Gift Card</h3>
+                <p>₹200 Value</p>
+                <p class="points">1000 points</p>
+                <button data-points="1000" onclick="redeemReward(1000, 'Amazon Gift Card - ₹500')">Redeem</button>
+            </div>
+            <div class="reward-item">
+                <img src="https://cdn.iconscout.com/icon/free/png-256/free-flipkart-226594.png"
+                    alt="Flipkart Gift Card">
+                <h3>Flipkart Gift Card</h3>
+                <p>₹200 Value</p>
+                <p class="points">1000 points</p>
+                <button data-points="1000" onclick="redeemReward(1000, 'Flipkart Gift Card - ₹500')">Redeem</button>
+            </div>
+            <div class="reward-item">
+                <img src="https://i0.wp.com/www.dafontfree.co/wp-content/uploads/2021/11/Amazon-Logo-Font-1-scaled.jpg?resize=2560%2C1578"
+                    alt="Amazon Gift Card">
+                <h3>Amazon Gift Card</h3>
+                <p>₹400 Value</p>
+                <p class="points">1800 points</p>
+                <button data-points="1800" onclick="redeemReward(1800, 'Amazon Gift Card - ₹1000')">Redeem</button>
+            </div>
+            <div class="reward-item">
+                <img src="https://cdn.iconscout.com/icon/free/png-256/free-flipkart-226594.png"
+                    alt="Flipkart Gift Card">
+                <h3>Flipkart Gift Card</h3>
+                <p>₹400 Value</p>
+                <p class="points">1800 points</p>
+                <button data-points="1800" onclick="redeemReward(1800, 'Flipkart Gift Card - ₹1000')">Redeem</button>
+            </div>
+        </div>
+    </div>
+    <script src="config.js"></script>
+    <script>
+        // Initialize mobile menu
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            const body = document.body;
+
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', () => {
+                    navLinks.classList.toggle('active');
+                    body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+                    
+                    const icon = menuToggle.querySelector('i');
+                    if (icon) {
+                        icon.classList.toggle('fa-bars');
+                        icon.classList.toggle('fa-times');
+                    }
+                });
+
+                // Close menu when clicking links
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navLinks.classList.remove('active');
+                        body.style.overflow = '';
+                        
+                        const icon = menuToggle.querySelector('i');
+                        if (icon) {
+                            icon.classList.add('fa-bars');
+                            icon.classList.remove('fa-times');
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+    <script src="redeem.js"></script>
+</body>
+
+</html>

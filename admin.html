@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - EcoRewards</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Add loading overlay -->
+    <div id="loadingOverlay" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 17, 40, 0.9); z-index: 9999; display: flex; justify-content: center; align-items: center; color: white;">
+        <div>Loading...</div>
+    </div>
+
+    <nav class="admin-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-recycle"></i>
+                <h2>EcoRewards</h2>
+            </div>
+            <div class="nav-controls">
+                <div class="admin-info">
+                    <div class="admin-avatar">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <span class="admin-name">Admin Name</span>
+                </div>
+                <button id="logoutBtn" class="nav-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="active" data-tab="dashboard"><i class="fas fa-chart-line"></i> Dashboard</li>
+                <li data-tab="users"><i class="fas fa-users"></i> Users</li>
+                <li data-tab="transactions"><i class="fas fa-exchange-alt"></i> Transactions</li>
+                <!-- <li data-tab="rewards"><i class="fas fa-gift"></i> Rewards</li> -->
+                <li data-tab="codes"><i class="fas fa-qrcode"></i> Sensor Codes</li>
+                <!-- <li data-tab="settings"><i class="fas fa-cog"></i> Settings</li> -->
+                <li data-tab="dustbins"><i class="fas fa-trash-alt"></i> Manage Dustbins</li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <section id="dashboard" class="tab-content active">
+                <h2>Dashboard Overview</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Users</h3>
+                        <p class="stat-value" id="totalUsers">0</p>
+                        <p class="stat-change">+5% this week</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Bins</h3>
+                        <p class="stat-value" id="activeSensors">0</p>
+                        <p class="stat-change">+2 new today</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Points</h3>
+                        <p class="stat-value" id="totalPoints">0</p>
+                        <p class="stat-change">+1.2k today</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Redemptions</h3>
+                        <p class="stat-value" id="totalRedemptions">0</p>
+                        <p class="stat-change">+12 today</p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="activityChart"></canvas>
+                </div>
+            </section>
+
+            <section id="users" class="tab-content">
+                <h2>User Management</h2>
+                <div class="table-controls">
+                    <input type="text" id="userSearch" placeholder="Search users...">
+                    <button class="action-btn" onclick="exportUsers()">Export CSV</button>
+                </div>
+                <div class="table-container">
+                    <table id="usersTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Points</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="transactions" class="tab-content">
+                <h2>Transaction History</h2>
+                <div class="table-controls">
+                    <input type="text" id="transactionSearch" placeholder="Search transactions...">
+                    <div class="date-filters">
+                        <input type="date" id="startDate">
+                        <input type="date" id="endDate">
+                    </div>
+                    <button class="action-btn" onclick="exportTransactions()">Export CSV</button>
+                </div>
+                <div class="table-container">
+                    <table id="transactionsTable">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>User</th>
+                                <th>Type</th>
+                                <th>Points</th>
+                                <th>Code</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionsTableBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="codes" class="tab-content">
+                <h2>Sensor Codes Management</h2>
+                <div class="table-controls">
+                    <input type="text" id="codeSearch" placeholder="Search codes...">
+                    <div class="action-buttons">
+                        <button class="action-btn" onclick="generateSensorCode()">
+                            <i class="fas fa-plus"></i> Generate Code
+                        </button>
+                        <button class="action-btn" onclick="exportSensorCodes()">
+                            <i class="fas fa-file-export"></i> Export CSV
+                        </button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table id="sensorCodesTable">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Sensor ID</th>
+                                <th>Created Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sensorCodesTableBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="dustbins" class="tab-content">
+                <h2>Dustbin Management</h2>
+                <div class="table-controls">
+                    <button class="action-btn" onclick="addNewDustbin()">Add New Dustbin</button>
+                    <input type="text" id="dustbinSearch" placeholder="Search dustbins...">
+                </div>
+                <div class="table-container">
+                    <table id="dustbinsTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Location</th>
+                                <th>Status</th>
+                                <th>Last Updated</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dustbinsTableBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Other sections... -->
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Add user details modal template -->
+    <div id="userDetailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>User Details</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="user-profile-header">
+                    <div class="user-avatar-large"></div>
+                    <div class="user-info-main">
+                        <h3 class="user-name-large">Loading...</h3>
+                        <span class="user-email">Loading...</span>
+                    </div>
+                </div>
+                <div class="details-grid">
+                    <div class="detail-card">
+                        <i class="fas fa-coins"></i>
+                        <span class="detail-label">Total Points</span>
+                        <span class="detail-value" id="userTotalPoints">0</span>
+                    </div>
+                    <div class="detail-card">
+                        <i class="fas fa-recycle"></i>
+                        <span class="detail-label">Recycling Count</span>
+                        <span class="detail-value" id="userRecycleCount">0</span>
+                    </div>
+                    <div class="detail-card">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span class="detail-label">Join Date</span>
+                        <span class="detail-value" id="userJoinDate">-</span>
+                    </div>
+                </div>
+                <div class="activity-section">
+                    <h3>Recent Activity</h3>
+                    <div class="activity-timeline" id="userActivityTimeline">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced dustbin modal -->
+    <div id="dustbinModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add/Edit Dustbin</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="dustbinForm" onsubmit="handleDustbinSubmit(event)">
+                    <div class="form-group">
+                        <label for="dustbinName">
+                            <i class="fas fa-trash-alt"></i>
+                            Dustbin Name
+                        </label>
+                        <input type="text" id="dustbinName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dustbinAddress">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Location
+                        </label>
+                        <input type="text" id="dustbinAddress" required>
+                    </div>
+                    <div class="coords-group">
+                        <div class="form-group">
+                            <label for="dustbinLat">
+                                <i class="fas fa-location-arrow"></i>
+                                Latitude
+                            </label>
+                            <input type="number" id="dustbinLat" step="any" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dustbinLng">
+                                <i class="fas fa-location-arrow"></i>
+                                Longitude
+                            </label>
+                            <input type="number" id="dustbinLng" step="any" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="dustbinStatus">
+                            <i class="fas fa-info-circle"></i>
+                            Status
+                        </label>
+                        <select id="dustbinStatus" required>
+                            <option value="AVAILABLE">Available</option>
+                            <option value="FULL">Full</option>
+                            <option value="MAINTENANCE">Maintenance</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dustbinCapacity">
+                            <i class="fas fa-weight"></i>
+                            Capacity (kg)
+                        </label>
+                        <input type="number" id="dustbinCapacity" min="1" step="1" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" onclick="closeDustbinModal()">Cancel</button>
+                        <button type="submit" class="submit-btn">Save Dustbin</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
