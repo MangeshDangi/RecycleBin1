@@ -1,7 +1,7 @@
 window.API_CONFIG = {
-    BASE_URL: 'http://localhost:3000',
+    BASE_URL: 'https://recyclebin1.onrender.com',
     ENDPOINTS: {
-        LOGIN: '/api/auth/login',        // Updated to match server route
+        LOGIN: '/api/auth/login',       // Updated to match server route
         SIGNUP: '/api/auth/signup',      // Updated to match server route
         USER_DATA: '/api/user-data',
         SUBMIT_CODE: '/api/submit-code',
