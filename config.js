@@ -1,5 +1,5 @@
 window.API_CONFIG = {
-    BASE_URL: 'https://recyclebin1.onrender.com/api/eco-stats',
+    BASE_URL: 'https://recyclebin1.onrender.com',
     ENDPOINTS: {
         LOGIN: '/api/auth/login',       // Updated to match server route
         SIGNUP: '/api/auth/signup',      // Updated to match server route
