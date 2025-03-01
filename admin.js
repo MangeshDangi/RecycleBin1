@@ -85,7 +85,7 @@ async function initializeDashboard() {
         const activeBins = locations.filter(bin => bin.status === 'AVAILABLE').length;
         const totalBins = locations.length;
 
-        const response = await fetch('http://localhost:3000/api/admin/dashboard-stats', {
+        const response = await fetch('https://recyclebin1.onrender.com/api/admin/dashboard-stats', {
             method: 'GET',
             headers: getAdminHeaders()
         });
@@ -439,7 +439,7 @@ async function loadUsers() {
                 </td>
             </tr>`;
 
-        const response = await fetch('http://localhost:3000/api/admin/users');
+        const response = await fetch('https://recyclebin1.onrender.com/api/admin/users');
         if (!response.ok) throw new Error('Failed to fetch users');
         
         const data = await response.json();
@@ -528,7 +528,7 @@ async function confirmDeleteUser(userId) {
         'Are you sure you want to delete this user? This action cannot be undone.',
         async () => {
             try {
-                const response = await fetch(`http://localhost:3000/api/admin/users/${userId}`, {
+                const response = await fetch(`https://recyclebin1.onrender.com/api/admin/users/${userId}`, {
                     method: 'DELETE'
                 });
                 
@@ -555,7 +555,7 @@ async function confirmDeleteUser(userId) {
 // Add new function to view user details
 async function viewUserDetails(userId) {
     try {
-        const response = await fetch(`http://localhost:3000/api/admin/users/${userId}`);
+        const response = await fetch(`https://recyclebin1.onrender.com/api/admin/users/${userId}`);
         const data = await response.json();
 
         if (!data.success) {
@@ -639,7 +639,7 @@ function formatDate(dateString) {
 // Update existing edit user function
 async function editUser(userId) {
     try {
-        const response = await fetch(`http://localhost:3000/api/admin/users/${userId}`);
+        const response = await fetch(`https://recyclebin1.onrender.com/api/admin/users/${userId}`);
         const data = await response.json();
 
         if (!data.success) {
@@ -683,7 +683,7 @@ async function editUser(userId) {
         form.onsubmit = async (e) => {
             e.preventDefault();
             try {
-                const response = await fetch(`http://localhost:3000/api/admin/users/${userId}`, {
+                const response = await fetch(`https://recyclebin1.onrender.com/api/admin/users/${userId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -761,7 +761,7 @@ async function loadTransactions() {
                 </td>
             </tr>`;
 
-        const response = await fetch('http://localhost:3000/api/admin/transactions', {
+        const response = await fetch('https://recyclebin1.onrender.com/api/admin/transactions', {
             method: 'GET',
             headers: getAdminHeaders()
         });
@@ -850,7 +850,7 @@ async function loadTransactions() {
 // Update viewTransactionDetails function
 async function viewTransactionDetails(txId) {
     try {
-        const response = await fetch(`http://localhost:3000/api/admin/transactions/${txId}`, {
+        const response = await fetch(`https://recyclebin1.onrender.com/api/admin/transactions/${txId}`, {
             headers: getAdminHeaders()
         });
 
@@ -930,7 +930,7 @@ async function confirmDeleteTransaction(txId) {
         'Are you sure you want to delete this transaction? This will also reverse any points associated with it.',
         async () => {
             try {
-                const response = await fetch(`http://localhost:3000/api/admin/transactions/${txId}`, {
+                const response = await fetch(`https://recyclebin1.onrender.com/api/admin/transactions/${txId}`, {
                     method: 'DELETE',
                     headers: getAdminHeaders()
                 });
@@ -984,7 +984,7 @@ async function exportUsers() {
         showNotification('Preparing users data for export...', 'info');
         
         // Fetch users data
-        const response = await fetch('http://localhost:3000/api/admin/users');
+        const response = await fetch('https://recyclebin1.onrender.com/api/admin/users');
         if (!response.ok) throw new Error('Failed to fetch users');
         
         const data = await response.json();
@@ -1490,7 +1490,7 @@ async function viewUserDetails(userId) {
         document.querySelector('#userActivityTimeline').innerHTML = '<div class="loading-spinner"></div>';
 
         // Fetch user details
-        const response = await fetch(`http://localhost:3000/api/admin/users/${userId}`);
+        const response = await fetch(`https://recyclebin1.onrender.com/api/admin/users/${userId}`);
         const userData = await response.json();
 
         if (!userData.success) {
@@ -1500,7 +1500,7 @@ async function viewUserDetails(userId) {
         const user = userData.user;
 
         // Fetch user's transactions
-        const txResponse = await fetch(`http://localhost:3000/api/admin/transactions?userId=${userId}`, {
+        const txResponse = await fetch(`https://recyclebin1.onrender.com/api/admin/transactions?userId=${userId}`, {
             headers: getAdminHeaders()
         });
         const txData = await txResponse.json();
@@ -1641,7 +1641,7 @@ async function exportTransactions() {
         showNotification('Preparing transactions data for export...', 'info');
         
         // Fetch transactions data with admin token
-        const response = await fetch('http://localhost:3000/api/admin/transactions', {
+        const response = await fetch('https://recyclebin1.onrender.com/api/admin/transactions', {
             headers: getAdminHeaders()
         });
         
@@ -1706,7 +1706,7 @@ async function loadSensorCodes() {
                 </td>
             </tr>`;
 
-        const response = await fetch('http://localhost:3000/api/admin/sensor-codes');
+        const response = await fetch('https://recyclebin1.onrender.com/api/admin/sensor-codes');
         console.log('Response status:', response.status); // Debug log
 
         if (!response.ok) {
@@ -1787,7 +1787,7 @@ async function generateSensorCode() {
 
         showNotification('Generating sensor code...', 'info');
 
-        const response = await fetch('http://localhost:3000/api/admin/sensor-codes', {
+        const response = await fetch('https://recyclebin1.onrender.com/api/admin/sensor-codes', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1821,7 +1821,7 @@ async function confirmDeleteSensorCode(codeId) {
     if (!confirmed) return;
 
     try {
-        const response = await fetch(`http://localhost:3000/api/admin/sensor-codes/${codeId}`, {
+        const response = await fetch(`https://recyclebin1.onrender.com/api/admin/sensor-codes/${codeId}`, {
             method: 'DELETE'
         });
 
@@ -1903,7 +1903,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadSensorCodes() {
     try {
-        const response = await fetch('http://localhost:3000/api/admin/sensor-codes', {
+        const response = await fetch('https://recyclebin1.onrender.com/api/admin/sensor-codes', {
             headers: getAdminHeaders()
         });
 
@@ -1956,7 +1956,7 @@ async function generateSensorCode() {
         const sensorId = prompt('Enter Sensor ID:');
         if (!sensorId) return;
 
-        const response = await fetch('http://localhost:3000/api/admin/sensor-codes', {
+        const response = await fetch('https://recyclebin1.onrender.com/api/admin/sensor-codes', {
             method: 'POST',
             headers: getAdminHeaders(),
             body: JSON.stringify({ sensorId })
