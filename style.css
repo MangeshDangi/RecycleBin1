@@ -2722,7 +2722,6 @@ section {
     }
 }
 
-/* ...existing code... */
 
 /* Redeem Code Styles */
 .active-redeem-codes {
@@ -2797,4 +2796,98 @@ section {
     padding: 20px;
 }
 
-/* ...existing code... */
+/* Form validation styles */
+.auth-form input.invalid {
+    border-color: #ff4757;
+    background-color: rgba(255, 71, 87, 0.05);
+}
+
+.auth-form input.invalid:focus {
+    box-shadow: 0 0 0 2px rgba(255, 71, 87, 0.2);
+}
+
+.auth-form input:focus {
+    border-color: #00ffa3;
+    box-shadow: 0 0 0 2px rgba(0, 255, 163, 0.2);
+}
+
+.auth-error {
+    color: #ff4757;
+    font-size: 0.9em;
+    margin: 8px 0;
+    min-height: 20px;
+}
+
+/* Add tooltip for password requirements */
+#signupPassword {
+    position: relative;
+}
+
+#signupPassword:focus + .password-requirements {
+    display: block;
+}
+
+.password-requirements {
+    display: none;
+    position: absolute;
+    background: rgba(10, 17, 40, 0.95);
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    color: #e6f4ff;
+    width: 200px;
+    margin-top: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+/* Form validation styles */
+.field-error {
+    color: #ff4757;
+    font-size: 0.8em;
+    margin-top: 5px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background: rgba(255, 71, 87, 0.1);
+    animation: slideIn 0.3s ease;
+}
+
+input.invalid {
+    border-color: #ff4757 !important;
+    background: rgba(255, 71, 87, 0.05) !important;
+}
+
+input.invalid:focus {
+    box-shadow: 0 0 0 2px rgba(255, 71, 87, 0.2) !important;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Password strength indicator */
+.password-strength {
+    height: 4px;
+    margin-top: 5px;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.password-strength.weak { background: #ff4757; width: 33%; }
+.password-strength.medium { background: #ffa502; width: 66%; }
+.password-strength.strong { background: #00ffa3; width: 100%; }
+
+/* Add space for error messages */
+.auth-form .form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+
