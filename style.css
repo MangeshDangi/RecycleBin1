@@ -2890,4 +2890,233 @@ input.invalid:focus {
     position: relative;
 }
 
+/* ...existing styles... */
+
+.input-group {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.input-group input.error {
+    border-color: #ff4757;
+    background: rgba(255, 71, 87, 0.05);
+}
+
+.field-error {
+    display: none;
+    color: #ff4757;
+    font-size: 0.8em;
+    margin-top: 4px;
+    padding-left: 4px;
+}
+
+.auth-form button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.auth-form button .fa-spinner {
+    margin-right: 8px;
+}
+
+/* ...existing styles... */
+
+/* Password validation styles */
+.password-strength {
+    height: 4px;
+    margin-top: 5px;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.password-strength.weak {
+    width: 33%;
+    background: #ff4757;
+}
+
+.password-strength.medium {
+    width: 66%;
+    background: #ffa502;
+}
+
+.password-strength.strong {
+    width: 100%;
+    background: #00ffa3;
+}
+
+.password-requirements {
+    display: none;
+    position: absolute;
+    right: -220px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 200px;
+    padding: 10px;
+    background: rgba(10, 17, 40, 0.95);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    font-size: 0.8em;
+    color: #e6f4ff;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.password-requirements ul {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0 0;
+}
+
+.password-requirements li {
+    margin: 4px 0;
+    padding-left: 15px;
+    position: relative;
+}
+
+.password-requirements li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+}
+
+.input-group input:focus ~ .password-requirements {
+    display: block;
+}
+
+.input-group {
+    position: relative;
+}
+
+/* Update existing invalid input styles */
+.input-group input.invalid {
+    border-color: #ff4757 !important;
+    background: rgba(255, 71, 87, 0.05) !important;
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Improve error message visibility */
+.field-error {
+    color: #ff4757;
+    font-size: 0.8em;
+    margin-top: 4px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(255, 71, 87, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Text counter styles */
+.text-counter {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 4px;
+    padding: 0 4px;
+}
+
+.word-count, .char-count {
+    transition: color 0.3s ease;
+}
+
+.word-count.over-limit,
+.char-count.over-limit {
+    color: #ff4757;
+    font-weight: 600;
+}
+
+/* Update existing input styles */
+.input-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.input-group textarea {
+    width: 100%;
+    min-height: 100px;
+    resize: vertical;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.input-group textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px rgba(0, 255, 163, 0.2);
+}
+
+.input-group textarea.invalid {
+    border-color: #ff4757;
+    background: rgba(255, 71, 87, 0.05);
+}
+
+/* Add these styles for password validation */
+.input-group input.shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    border-color: #ff4757 !important;
+}
+
+.input-group input.invalid-password {
+    border-color: #ff4757 !important;
+    background: rgba(255, 71, 87, 0.05) !important;
+    box-shadow: 0 0 0 2px rgba(255, 71, 87, 0.2);
+}
+
+@keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+.field-error {
+    display: none;
+    color: #ff4757;
+    font-size: 0.8em;
+    margin-top: 4px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(255, 71, 87, 0.1);
+    animation: slideIn 0.3s ease;
+}
+
+.field-error.show {
+    display: block;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 
