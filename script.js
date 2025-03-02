@@ -699,18 +699,30 @@ async function handleLogin() {
             return;
         }
 
-        // Store user data and update UI
-        setCurrentUser(data.user);
+        // Store user data
+        setCurrentUser({
+            id: data.user.id,
+            name: data.user.name,
+            email: data.user.email,
+            points: data.user.points || 0,
+            isAdmin: data.user.isAdmin || false
+        });
+
+        // Close modal
+        const modal = document.getElementById('loginModal');
         modal.classList.remove('show');
         document.body.style.overflow = '';
-        
-        // Clear error message if successful
-        errorDiv.textContent = '';
-        
-        // Update points and UI without page reload
+
+        // Show success message
+        showNotification('Login successful!', 'success');
+
+        // Update UI
         userPoints = data.user.points || 0;
         updatePointsDisplay();
         checkLoginState();
+
+        // Force page reload to update all components
+        window.location.reload();
 
     } catch (error) {
         console.error('Login error:', error);
@@ -1793,7 +1805,30 @@ async function handleLogin() {
             throw new Error(data.message || 'Login failed');
         }
 
-        // ...existing success handling code...
+        // Store user data
+        setCurrentUser({
+            id: data.user.id,
+            name: data.user.name,
+            email: data.user.email,
+            points: data.user.points || 0,
+            isAdmin: data.user.isAdmin || false
+        });
+
+        // Close modal
+        const modal = document.getElementById('loginModal');
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+
+        // Show success message
+        showNotification('Login successful!', 'success');
+
+        // Update UI
+        userPoints = data.user.points || 0;
+        updatePointsDisplay();
+        checkLoginState();
+
+        // Force page reload to update all components
+        window.location.reload();
 
     } catch (error) {
         console.error('Login error:', error);
