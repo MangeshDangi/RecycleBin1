@@ -6,76 +6,6 @@ const getApiUrl = (endpoint) => {
     return `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS[endpoint]}`;
 };
 
-// Add validation utilities
-const ValidationRules = {
-    name: {
-        minLength: 2,
-        maxLength: 50,
-        pattern: /^[a-zA-Z\s-]+$/,
-        message: 'Name must be 2-50 characters and contain only letters, spaces, and hyphens'
-    },
-    email: {
-        maxLength: 30,
-        pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-        message: 'Please enter a valid email address (max 30 characters)'
-    },
-    password: {
-        minLength: 8,
-        pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*()]+$/,
-        message: 'Password must be at least 8 characters with uppercase, lowercase and numbers'
-    },
-    code: {
-        pattern: /^\d{6}$/,
-        message: 'Code must be exactly 6 digits'
-    }
-};
-
-function validateField(value, type) {
-    const rules = ValidationRules[type];
-    const errors = [];
-
-    if (!value || typeof value !== 'string') {
-        return [`${type} is required`];
-    }
-
-    if (rules.minLength && value.length < rules.minLength) {
-        errors.push(`Minimum length is ${rules.minLength} characters`);
-    }
-
-    if (rules.maxLength && value.length > rules.maxLength) {
-        errors.push(`Maximum length is ${rules.maxLength} characters`);
-    }
-
-    if (rules.pattern && !rules.pattern.test(value)) {
-        errors.push(rules.message);
-    }
-
-    return errors;
-}
-
-function showFieldError(inputElement, errors) {
-    const errorElement = document.createElement('div');
-    errorElement.className = 'field-error';
-    errorElement.textContent = errors[0];
-    
-    // Remove any existing error
-    const existingError = inputElement.parentNode.querySelector('.field-error');
-    if (existingError) {
-        existingError.remove();
-    }
-
-    inputElement.classList.add('invalid');
-    inputElement.parentNode.appendChild(errorElement);
-}
-
-function clearFieldError(inputElement) {
-    const errorElement = inputElement.parentNode.querySelector('.field-error');
-    if (errorElement) {
-        errorElement.remove();
-    }
-    inputElement.classList.remove('invalid');
-}
-
 function initSlider() { 
     const slides = document.querySelectorAll('.slide');
     if (slides.length === 0) return; // Add this check
@@ -166,14 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
 async function submitCode() {
     try {
         const codeInput = document.getElementById('codeInput');
-        clearFieldError(codeInput);
-
-        const codeErrors = validateField(codeInput.value, 'code');
-        if (codeErrors.length) {
-            showFieldError(codeInput, codeErrors);
-            return;
-        }
-
         const code = codeInput.value.trim();
         
         if (!code) {
@@ -534,57 +456,18 @@ function switchForm(formType) {
     document.getElementById(`${formType}Form`).classList.add('active');
 }
 
-// Add validation functions at the beginning of the file
-function validateEmail(email) {
-    const emailRegex = /^[^\s@]{1,30}@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-function validatePassword(password) {
-    // At least 8 characters, 1 uppercase, 1 lowercase, 1 number
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-    return passwordRegex.test(password);
-}
-
-function validateName(name) {
-    // Allow letters, spaces, and hyphens, 2-50 characters
-    const nameRegex = /^[a-zA-Z\s-]{2,50}$/;
-    return nameRegex.test(name);
-}
-
-// Update handleLogin function
 async function handleLogin() {
     try {
-        const emailInput = document.getElementById('loginEmail');
-        const passwordInput = document.getElementById('loginPassword');
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
         const errorDiv = document.querySelector('#loginForm .auth-error');
-        let hasErrors = false;
 
-        // Clear previous errors
-        errorDiv.textContent = '';
-        clearFieldError(emailInput);
-        clearFieldError(passwordInput);
-
-        // Validate email
-        const emailErrors = validateField(emailInput.value, 'email');
-        if (emailErrors.length) {
-            showFieldError(emailInput, emailErrors);
-            hasErrors = true;
+        if (!email || !password) {
+            errorDiv.textContent = 'Please fill in all fields';
+            return;
         }
 
-        // Validate password
-        const passwordErrors = validateField(passwordInput.value, 'password');
-        if (passwordErrors.length) {
-            showFieldError(passwordInput, passwordErrors);
-            hasErrors = true;
-        }
-
-        if (hasErrors) return;
-
-        const email = emailInput.value.trim();
-        const password = passwordInput.value;
-
-        console.log('Attempting login with:', { email });
+        console.log('Attempting login with:', { email }); // Debug log
 
         const response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.LOGIN}`, {
             method: 'POST',
@@ -631,52 +514,23 @@ async function handleLogin() {
     }
 }
 
-// Update handleSignup function
 async function handleSignup() {
     try {
-        const nameInput = document.getElementById('signupName');
-        const emailInput = document.getElementById('signupEmail');
-        const passwordInput = document.getElementById('signupPassword');
-        const confirmInput = document.getElementById('confirmPassword');
+        const name = document.getElementById('signupName').value;
+        const email = document.getElementById('signupEmail').value;
+        const password = document.getElementById('signupPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
         const errorDiv = document.querySelector('#signupForm .auth-error');
-        let hasErrors = false;
 
-        // Clear previous errors
-        errorDiv.textContent = '';
-        [nameInput, emailInput, passwordInput, confirmInput].forEach(input => clearFieldError(input));
-
-        // Validate name
-        const nameErrors = validateField(nameInput.value, 'name');
-        if (nameErrors.length) {
-            showFieldError(nameInput, nameErrors);
-            hasErrors = true;
+        if (!name || !email || !password || !confirmPassword) {
+            errorDiv.textContent = 'Please fill in all fields';
+            return;
         }
 
-        // Validate email
-        const emailErrors = validateField(emailInput.value, 'email');
-        if (emailErrors.length) {
-            showFieldError(emailInput, emailErrors);
-            hasErrors = true;
+        if (password !== confirmPassword) {
+            errorDiv.textContent = 'Passwords do not match';
+            return;
         }
-
-        // Validate password
-        const passwordErrors = validateField(passwordInput.value, 'password');
-        if (passwordErrors.length) {
-            showFieldError(passwordInput, passwordErrors);
-            hasErrors = true;
-        }
-
-        // Validate password confirmation
-        if (passwordInput.value !== confirmInput.value) {
-            showFieldError(confirmInput, ['Passwords do not match']);
-            hasErrors = true;
-        }
-
-        if (hasErrors) return;
-
-        const name = nameInput.value.trim();
-        const email = emailInput.value.trim();
-        const password = passwordInput.value;
 
         const response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SIGNUP}`, {
             method: 'POST',
@@ -709,54 +563,6 @@ async function handleSignup() {
         errorDiv.textContent = 'Connection error. Please try again.';
     }
 }
-
-// Add input validation event listeners
-document.addEventListener('DOMContentLoaded', () => {
-    // ... existing code ...
-
-    // Add real-time validation for signup form
-    const signupEmail = document.getElementById('signupEmail');
-    if (signupEmail) {
-        signupEmail.addEventListener('input', function() {
-            const email = this.value.trim();
-            if (email && !validateEmail(email)) {
-                this.classList.add('invalid');
-                this.setCustomValidity('Please enter a valid email address (max 30 characters)');
-            } else {
-                this.classList.remove('invalid');
-                this.setCustomValidity('');
-            }
-        });
-    }
-
-    const signupPassword = document.getElementById('signupPassword');
-    if (signupPassword) {
-        signupPassword.addEventListener('input', function() {
-            const password = this.value;
-            if (password && !validatePassword(password)) {
-                this.classList.add('invalid');
-                this.setCustomValidity('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number');
-            } else {
-                this.classList.remove('invalid');
-                this.setCustomValidity('');
-            }
-        });
-    }
-
-    const signupName = document.getElementById('signupName');
-    if (signupName) {
-        signupName.addEventListener('input', function() {
-            const name = this.value.trim();
-            if (name && !validateName(name)) {
-                this.classList.add('invalid');
-                this.setCustomValidity('Name must be 2-50 characters long and contain only letters, spaces, and hyphens');
-            } else {
-                this.classList.remove('invalid');
-                this.setCustomValidity('');
-            }
-        });
-    }
-});
 
 // Add new functions for auth state management
 async function handleLogout() {
@@ -1139,14 +945,6 @@ function animateTreeCount(start, end, element) {
 async function submitCode() {
     try {
         const codeInput = document.getElementById('codeInput');
-        clearFieldError(codeInput);
-
-        const codeErrors = validateField(codeInput.value, 'code');
-        if (codeErrors.length) {
-            showFieldError(codeInput, codeErrors);
-            return;
-        }
-
         const code = codeInput.value.trim();
         
         if (!code) {
