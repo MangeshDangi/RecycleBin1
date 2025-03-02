@@ -668,7 +668,7 @@ async function handleLogin() {
         }
 
         // Show loading state
-        const loginBtn = document.querySelector('#loginForm button');
+            const loginBtn = document.querySelector('#loginForm button');
         loginBtn.disabled = true;
         loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
 
@@ -722,6 +722,7 @@ async function handleLogin() {
         loginBtn.textContent = 'Login';
     }
 }
+
 
 // Update the existing handleSignup function
 async function handleSignup() {
