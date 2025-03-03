@@ -458,18 +458,15 @@ app.post('/save_code', async (req, res) => {
     console.log('📥 Received data from ESP32:', req.body);
 
     try {
-        const { sensorId } = req.body;
+        const { sensorId, code } = req.body; // Use the received code
 
-        if (!sensorId) {
+        if (!sensorId || !code) {
             console.log('❌ Missing required fields');
             return res.status(400).json({
                 success: false,
-                message: '❌ Missing sensorId'
+                message: '❌ Missing sensorId or code'
             });
         }
-
-        // Generate a new 6-digit code
-        const code = generateSensorCode();
 
         // Check for duplicate code
         const existingCode = await SensorCode.findOne({ code });
@@ -480,10 +477,10 @@ app.post('/save_code', async (req, res) => {
             });
         }
 
-        // Save code in the database
+        // Save received code in the database
         const newCode = await SensorCode.create({
             sensorId,
-            code,
+            code, // ✅ Store the received code instead of generating a new one
             createdAt: new Date()
         });
 
@@ -493,7 +490,7 @@ app.post('/save_code', async (req, res) => {
             success: true,
             message: '✅ Code saved successfully',
             data: {
-                code: newCode.code,
+                code: newCode.code,  // ✅ Ensures the stored code matches the received code
                 sensorId: newCode.sensorId,
                 createdAt: newCode.createdAt
             }
@@ -506,6 +503,7 @@ app.post('/save_code', async (req, res) => {
         });
     }
 });
+
 
 // Update or fix the user data endpoint
 app.get('/api/user-data/:userId', async (req, res) => {
